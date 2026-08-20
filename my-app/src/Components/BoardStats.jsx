@@ -26,6 +26,8 @@ function BoardStats({ tasks }) {
       )}
     </div>
   );
+export default function BoardStats() {
+  return <div>BoardStats</div>;
 }
 
 export default BoardStats;

@@ -1,13 +1,9 @@
-import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Pages/Layout";
-import { AddCardForm } from "./Components/AddCardForm";
+import Home from "./Pages/Home";
 import Layout from "./Pages/Layout";
-
+import { About } from "./Pages/About";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <RouterProvider
       router={createBrowserRouter([
@@ -17,12 +13,14 @@ function App() {
           errorElement: (
             <div>
               <p>Page Not Found</p>
-              
             </div>
           ),
           children: [
-            { path: "/", element: <Layout /> },
-            { path: "about", element: <AddCardForm /> },
+            { path: "/", element: <Home /> },
+            {
+              path: "about",
+              element: <About />,
+            },
           ],
         },
       ])}
