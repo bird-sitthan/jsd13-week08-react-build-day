@@ -1,50 +1,17 @@
-import { useState } from "react";
-import AddCardForm from "../Components/AddCardForm";
-import BoardStats from "../Components/BoardStats";
+import { useContext } from "react";
+import { BoardContext } from "../Context/BoardContext/BoardContext";
 import Board from "../Components/Board";
+
 function Home() {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "เขียนโค้ด AddCardForm", status: "todo" },
-    { id: 2, title: "ออกแบบ Card UI", status: "doing" },
-    { id: 3, title: "Setup โปรเจกต์", status: "done" },
-  ]);
-
-  const columns = ["todo", "doing", "done"]; // เพิ่ม task ใหม่ (สถานะเริ่มต้น = todo)
-
-  const handleAddTask = (title) => {
-    const newTask = {
-      id: Date.now(),
-      title: title,
-      status: "todo",
-    };
-    setTasks([...tasks, newTask]);
-  }; // ย้าย task ไปคอลัมน์ถัดไป/ก่อนหน้า
-
-  const handleMoveTask = (id, newStatus) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task,
-      ),
-    );
-  }; // ลบ task
-
-  const handleDeleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
+  const { tasks, columns, onMoveTask, onDeleteTask } = useContext(BoardContext);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-4">:clipboard: My Trello Board</h1>
-
-      <AddCardForm onAddTask={handleAddTask} />
-
-      <BoardStats tasks={tasks} />
-
+    <div className="bg-slate-50 p-3 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-sm border border-slate-200/60">
       <Board
         tasks={tasks}
         columns={columns}
-        onMoveTask={handleMoveTask}
-        onDeleteTask={handleDeleteTask}
+        onMoveTask={onMoveTask}
+        onDeleteTask={onDeleteTask}
       />
     </div>
   );

@@ -1,106 +1,39 @@
 import { useContext } from "react";
 import { BoardContext } from "../Context/BoardContext/BoardContext";
+import BoardStats from "./BoardStats";
+import Column from "./Column";
 
-export default function Board() {
-  const { task } = useContext(BoardContext);
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    // setIsDragOver(true);
-  };
+export default function Board({
+  tasks: propTasks,
+  columns: propColumns,
+  onMoveTask: propOnMoveTask,
+  onDeleteTask: propOnDeleteTask,
+}) {
+  const context = useContext(BoardContext) || {};
 
-  // ดักจับจังหวะลากออกจาก Column
-  const handleDragLeave = () => {
-    // setIsDragOver(false);
-  };
+  // ใช้ props ถ้าส่งมา ไม่เช่นนั้น fallback ไปใช้ค่าจาก Context
+  const tasks = propTasks ?? context.tasks ?? [];
+  const columns = propColumns ?? context.columns ?? ["todo", "in-progress", "done"];
+  const onMoveTask = propOnMoveTask ?? context.onMoveTask ?? (() => {});
+  const onDeleteTask = propOnDeleteTask ?? context.onDeleteTask ?? (() => {});
 
-  // ดักจับจังหวะปล่อย Card ลงใน Column
-  const handleDrop = (e) => {
-    e.preventDefault();
-    //setIsDragOver(false);
-
-    const taskId = e.dataTransfer.getData("text/plain");
-    if (taskId) {
-      //updateTaskStatus(taskId, status); // อัปเดต State ผ่าน Context
-    }
-  };
   return (
-    <main id="kanban-view" className="page-view block">
-      <div className="flex flex-col md:flex-row gap-5 items-start overflow-x-auto pb-4">
-        <div
-          className="flex-1 min-w-[300px] w-full bg-[#ebecf0] rounded-lg p-4"
-          id="todo"
-        >
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-base font-bold text-slate-700">To Do</span>
-            <span
-              className="bg-slate-300 text-slate-700 px-2 py-0.5 rounded-full text-xs font-semibold"
-              id="badge-todo"
-            >
-              0
-            </span>
-          </div>
+    <main id="kanban-view" className="page-view block w-full">
+      {/* แถบสถิติ BoardStats */}
+      <BoardStats tasks={tasks} />
 
-          <div
-            className="flex flex-col gap-3 min-h-[150px]"
-            id="cards-todo"
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          ></div>
-        </div>
-
-        <div
-          className="flex-1 min-w-[300px] w-full bg-[#ebecf0] rounded-lg p-4"
-          id="in-progress"
-        >
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-base font-bold text-slate-700">
-              In Progress
-            </span>
-            <span
-              className="bg-slate-300 text-slate-700 px-2 py-0.5 rounded-full text-xs font-semibold"
-              id="badge-in-progress"
-            >
-              0
-            </span>
-          </div>
-          Hello
-          {task && (
-            <div>
-              <h1>{task.title}</h1>
-              <p>{task.desc}</p>
-            </div>
-          )}
-          <div
-            className="flex flex-col gap-3 min-h-[150px]"
-            id="cards-in-progress"
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          ></div>
-        </div>
-
-        <div
-          className="flex-1 min-w-[300px] w-full bg-[#ebecf0] rounded-lg p-4"
-          id="done"
-        >
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-base font-bold text-slate-700">Done</span>
-            <span
-              className="bg-slate-300 text-slate-700 px-2 py-0.5 rounded-full text-xs font-semibold"
-              id="badge-done"
-            >
-              0
-            </span>
-          </div>
-          <div
-            className="flex flex-col gap-3 min-h-[150px]"
-            id="cards-done"
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          ></div>
-        </div>
+      {/* คอลัมน์ Kanban ด้วย Grid 3 ช่องพอดีเฟรม ไม่ล้นจอ */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 items-start w-full">
+        {columns.map((column) => (
+          <Column
+            key={column}
+            column={column}
+            tasks={tasks}
+            columns={columns}
+            onMoveTask={onMoveTask}
+            onDeleteTask={onDeleteTask}
+          />
+        ))}
       </div>
     </main>
   );
