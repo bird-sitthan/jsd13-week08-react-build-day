@@ -4,11 +4,14 @@ import { Footer } from "../Components/Footer";
 
 function Layout() {
   return (
-    <div>
-      <Navbar />
-      {/* addcartForm page component children */}
-      <Outlet />
-      <Footer />
+    <div className="min-h-screen bg-slate-100 p-2.5 sm:p-4 md:p-6 text-slate-800 antialiased">
+      <div className="max-w-7xl mx-auto">
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
