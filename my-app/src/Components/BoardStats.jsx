@@ -1,7 +1,3 @@
-import React from 'react'
-
 export default function BoardStats() {
-  return (
-    <div>BoardStats</div>
-  )
+  return <div>BoardStats</div>;
 }

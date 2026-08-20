@@ -1,8 +1,3 @@
-import React from 'react'
-
 export default function Board() {
-  return (
-    <div>Board</div>
-  )
+  return <div>Board</div>;
 }
-
