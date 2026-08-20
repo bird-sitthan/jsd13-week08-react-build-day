@@ -1,4 +1,10 @@
-export default function Card({ task, columns, onMoveTask, onDeleteTask }) {
+export default function Card({
+  task,
+  columns,
+  onMoveTask,
+  onDeleteTask,
+  onEditTask,
+}) {
   // หาตำแหน่งคอลัมน์ปัจจุบันจาก columns ที่ App.jsx ส่งลงมา (เช่น ["todo","doing","done"])
   const currentIndex = columns.indexOf(task.status);
   const isFirstColumn = currentIndex === 0;
@@ -16,6 +22,9 @@ export default function Card({ task, columns, onMoveTask, onDeleteTask }) {
 
   const handleDelete = () => {
     onDeleteTask(task.id);
+  };
+  const handleEdit = () => {
+    if (onEditTask) onEditTask(task);
   };
 
   return (
@@ -42,12 +51,18 @@ export default function Card({ task, columns, onMoveTask, onDeleteTask }) {
             →
           </button>
         )}
-
+        <button
+          onClick={handleEdit}
+          className="text-gray-500 hover:text-gray-600 transition-colors"
+          title="แก้ไขงาน"
+        >
+          edit
+        </button>
         <button
           onClick={handleDelete}
           className="text-gray-500 hover:text-red-500"
         >
-          🗑
+          x
         </button>
       </div>
     </div>

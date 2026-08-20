@@ -1,0 +1,38 @@
+export const mockTasks = [
+  {
+    id: "65a001",
+    title: "ออกแบบ UI หน้า Dashboard",
+    desc: "จัดวาง Layout และโครงสร้างกราฟให้รองรับ Responsive",
+    status: "todo",
+    priority: "high",
+    assignee: "ช่างมอส",
+    dueDate: "2026-08-25",
+  },
+  {
+    id: "65a002",
+    title: "เชื่อมต่อ API Socket.io",
+    desc: "ดักฟัง Real-time Event สำหรับอัปเดตสถานะงาน",
+    status: "in-progress",
+    priority: "high",
+    assignee: "ช่างต่าย",
+    dueDate: "2026-08-22",
+  },
+  {
+    id: "65a003",
+    title: "เขียน Unit Test สำหรับ Task Service",
+    desc: "ครอบคลุมฟังก์ชัน Create, Update และ Delete API",
+    status: "in-progress",
+    priority: "medium",
+    assignee: "ช่างมอส",
+    dueDate: "2026-08-24",
+  },
+  {
+    id: "65a004",
+    title: "ทำระบบ Export CSV ในหน้า Excel View",
+    desc: "ดึงข้อมูลจาก State แล้วจัดฟอร์แมตแปลงเป็นไฟล์ .csv",
+    status: "done",
+    priority: "low",
+    assignee: "ช่างต่าย",
+    dueDate: "2026-08-18",
+  },
+];
