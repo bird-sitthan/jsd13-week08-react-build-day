@@ -1,4 +1,4 @@
-function BoardStats({ tasks }) {
+export default function BoardStats({ tasks = [] }) {
   const totalTasks = tasks.length;
   const doneTasks = tasks.filter((task) => task.status === "done").length;
   const remainingTasks = totalTasks - doneTasks;
@@ -26,8 +26,4 @@ function BoardStats({ tasks }) {
       )}
     </div>
   );
-export default function BoardStats() {
-  return <div>BoardStats</div>;
 }
-
-export default BoardStats;
