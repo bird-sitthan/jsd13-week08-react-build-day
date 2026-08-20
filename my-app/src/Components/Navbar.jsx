@@ -127,55 +127,8 @@ export const Navbar = () => {
                     onChange={handleChange}
                     id="taskAssignee"
                     className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                    placeholder="เช่น ช่างมอส, ช่างต่าย"
                   />
                 </div>
-
-                {/* Status & Priority Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">
-                      สถานะ
-                    </label>
-                    <select
-                      id="taskStatus"
-                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
-                    >
-                      <option value="todo">To Do</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="done">Done</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1">
-                      ความสำคัญ
-                    </label>
-                    <select
-                      id="taskPriority"
-                      defaultValue="medium"
-                      className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
-                    >
-                      <option value="low">Low</option>
-                      <option value="medium">Medium</option>
-                      <option value="high">High</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Due Date */}
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">
-                    กำหนดส่ง
-                  </label>
-                  <input
-                    type="date"
-                    id="taskDueDate"
-                    onChange={(e) => e.target.value}
-                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                  />
-                </div>
-
                 {/* Modal Footer */}
                 <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
                   <button

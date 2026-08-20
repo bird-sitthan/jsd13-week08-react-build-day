@@ -10,18 +10,9 @@ function Home() {
   //   { id: 3, title: "Setup โปรเจกต์", status: "done" },
   // ]);
 
-  const { tasks, setTasks } = useContext(BoardContext);
+  const { tasks, setTasks, handleAddTask } = useContext(BoardContext);
 
   const columns = ["todo", "doing", "done"]; // เพิ่ม task ใหม่ (สถานะเริ่มต้น = todo)
-
-  const handleAddTask = (title) => {
-    const newTask = {
-      id: Date.now(),
-      title: title,
-      status: "todo",
-    };
-    setTasks([...tasks, newTask]);
-  }; // ย้าย task ไปคอลัมน์ถัดไป/ก่อนหน้า
 
   const handleMoveTask = (id, newStatus) => {
     setTasks(

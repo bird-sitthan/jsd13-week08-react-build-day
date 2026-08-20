@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { BoardContext } from "../Context/BoardContext/BoardContext";
-
+import Card from "./Card";
 export default function Board() {
-  const { tasks, updateTaskStatus, onDeleteTask } = useContext(BoardContext);
+  const { tasks, updateTaskStatus, onDeleteTask, openEditModal } =
+    useContext(BoardContext);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -26,13 +27,16 @@ export default function Board() {
     { id: "done", title: "Done" },
   ];
 
+  // ดึงเฉพาะ ID สถานะส่งไปให้ Card นำไปคำนวณตำแหน่ง index
+  const columnIds = columns.map((col) => col.id);
+
   return (
     <main id="kanban-view" className="page-view block">
       <div className="flex flex-col md:flex-row gap-5 items-start overflow-x-auto pb-4">
         {columns.map((col) => {
-          // กรองงานเฉพาะของคอลัมน์นี้
+          // กรองงานเฉพาะคอลัมน์ และกัน Error ด้วย Optional Chaining
           const colTasks = tasks
-            ? tasks.filter((t) => t.status === col.id)
+            ? tasks.filter((t) => t?.status === col.id)
             : [];
 
           return (
@@ -54,9 +58,9 @@ export default function Board() {
                 </span>
               </div>
 
-              {/* Drop Container & Render Cards */}
+              {/* Drop Zone Container */}
               <div
-                className="flex flex-col gap-3 min-h-[150px]"
+                className="flex flex-col gap-1 min-h-[150px]"
                 id={`cards-${col.id}`}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, col.id)}
@@ -66,24 +70,15 @@ export default function Board() {
                     key={taskItem.id}
                     draggable="true"
                     onDragStart={(e) => handleDragStart(e, taskItem.id)}
-                    className="bg-white rounded-lg p-3 shadow-sm hover:shadow transition cursor-grab active:cursor-grabbing flex justify-between items-center"
+                    className="cursor-grab active:cursor-grabbing"
                   >
-                    <div>
-                      <h4 className="font-semibold text-sm text-slate-800">
-                        {taskItem.title}
-                      </h4>
-                      {taskItem.desc && (
-                        <p className="text-xs text-slate-500 mt-1">
-                          {taskItem.desc}
-                        </p>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => onDeleteTask(taskItem.id)}
-                      className="text-slate-400 hover:text-red-500 text-xs p-1"
-                    >
-                      ✕
-                    </button>
+                    <Card
+                      task={taskItem}
+                      columns={columnIds}
+                      onMoveTask={updateTaskStatus}
+                      onDeleteTask={onDeleteTask}
+                      onEditTask={openEditModal}
+                    />
                   </div>
                 ))}
               </div>

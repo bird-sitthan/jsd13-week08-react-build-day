@@ -5,16 +5,52 @@ import { mockTasks } from "../../mockdata";
 export const BoardProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState(mockTasks);
+  const [editingTask, setEditingTask] = useState(null);
 
-  const createTask = (newTaskData) => {
-    const newTask = {
-      id: String(Date.now()),
-      ...newTaskData,
-    };
-    setTasks((prev) => [...prev, newTask]);
+  const openEditModal = (task = null) => {
+    setEditingTask(task);
+    setIsOpen(true);
   };
 
-  // ฟังก์ชันย้ายสถานะ Task (สำหรับ Drag and Drop หรือกดปุ่มเลื่อน)
+  const closeModal = () => {
+    setIsOpen(false);
+    setEditingTask(null);
+  };
+
+  // ฟังก์ชันรองรับ Submit จาก <form> ใน Modal
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    // ดึงค่าจาก Field ใน Form (อ้างอิงตาม attribute 'name' ของ input/select/textarea)
+    const taskData = {
+      title: formData.get("title"),
+      desc: formData.get("desc"),
+      assignee: formData.get("assignee"),
+      status: formData.get("status") || "todo",
+      priority: formData.get("priority") || "medium",
+      dueDate: formData.get("dueDate"),
+    };
+
+    if (editingTask) {
+      // กรณีแก้ไข: วนอัปเดต Task ตาม ID
+      setTasks((prev) =>
+        prev.map((t) =>
+          String(t.id) === String(editingTask.id) ? { ...t, ...taskData } : t,
+        ),
+      );
+    } else {
+      // กรณีเพิ่มใหม่: สร้าง ID ใหม่แล้วเพิ่มลง State
+      const newTask = {
+        id: String(Date.now()),
+        ...taskData,
+      };
+      setTasks((prev) => [...prev, newTask]);
+    }
+
+    closeModal();
+  };
+
   const updateTaskStatus = (taskId, newStatus) => {
     setTasks((prevTasks) =>
       prevTasks.map((t) =>
@@ -29,19 +65,17 @@ export const BoardProvider = ({ children }) => {
     );
   };
 
-  const closeModal = () => setIsOpen(false);
-  const handleFormSubmit = (e) => e.preventDefault();
-
   const value = {
     isOpen,
     setIsOpen,
-    tasks, // <--- ส่ง tasks ออกไปใช้งาน
+    tasks,
     setTasks,
-    createTask,
     updateTaskStatus,
     onDeleteTask,
     closeModal,
     handleFormSubmit,
+    openEditModal,
+    editingTask,
   };
 
   return (
