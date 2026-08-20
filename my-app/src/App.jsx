@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Pages/Layout";
+import Home from "./Pages/Home";
 import { AddCardForm } from "./Components/AddCardForm";
 import Layout from "./Pages/Layout";
 
@@ -21,7 +21,7 @@ function App() {
             </div>
           ),
           children: [
-            { path: "/", element: <Layout /> },
+            { path: "/", element: <Home /> },
             { path: "about", element: <AddCardForm /> },
           ],
         },
