@@ -8,7 +8,6 @@ function Layout() {
       <Navbar />
       {/* addcartForm page component children */}
       <Outlet />
-
       <Footer />
     </div>
   );
