@@ -1,35 +1,47 @@
 import { useState } from "react";
 import { BoardContext } from "./BoardContext";
 import { mockTasks } from "../../mockdata";
+
 export const BoardProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [tasks, setTasks] = useState(mockTasks);
 
   const createTask = (newTaskData) => {
     const newTask = {
-      id: Date.now(), // สุ่ม ID จากเวลาปัจจุบัน
+      id: String(Date.now()),
       ...newTaskData,
     };
-    setTasks([...tasks, newTask]);
+    setTasks((prev) => [...prev, newTask]);
   };
 
-  function handleFormSubmit(e) {
-    e.preventDefault();
-  }
-  function onMoveTask() {}
-  function closeModal() {
-    setIsOpen(false);
-  }
-  function onDeleteTask() {}
+  // ฟังก์ชันย้ายสถานะ Task (สำหรับ Drag and Drop หรือกดปุ่มเลื่อน)
+  const updateTaskStatus = (taskId, newStatus) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((t) =>
+        String(t.id) === String(taskId) ? { ...t, status: newStatus } : t,
+      ),
+    );
+  };
+
+  const onDeleteTask = (taskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.filter((t) => String(t.id) !== String(taskId)),
+    );
+  };
+
+  const closeModal = () => setIsOpen(false);
+  const handleFormSubmit = (e) => e.preventDefault();
+
   const value = {
     isOpen,
     setIsOpen,
-    handleFormSubmit,
-    closeModal,
+    tasks, // <--- ส่ง tasks ออกไปใช้งาน
+    setTasks,
     createTask,
-    onMoveTask,
+    updateTaskStatus,
     onDeleteTask,
+    closeModal,
+    handleFormSubmit,
   };
 
   return (

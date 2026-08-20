@@ -24,7 +24,7 @@ export const Navbar = () => {
     <nav className="flex flex-wrap items-center justify-between gap-4 rounded-xl bg-white p-4 shadow-sm mb-5">
       <Link to={"/"}>
         <h1 className="flex items-center gap-2 text-xl font-bold text-slate-800">
-          <i className="fa-solid fa-kanban"></i> Project Manager
+          <i className="fa-solid fa-kanban"></i> Trollel
         </h1>
       </Link>
 
